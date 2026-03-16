@@ -1,4 +1,5 @@
 #include "nn.hpp"
+#include "src/models/vit.hpp"
 
 using namespace std;
 #define nline "\n"
