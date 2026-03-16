@@ -1,5 +1,79 @@
-#binaries
-train
-*.out
+# =========================
+# Build artifacts
+# =========================
+build/
+bin/
+out/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# =========================
+# Compiled objects
+# =========================
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.dylib
+
+# Executables
 *.exe
-bin
+*.out
+*.app
+
+# Test binaries
+tests_run
+test_*
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Debug / core dumps
+# =========================
+core
+*.core
+*.stackdump
+
+# =========================
+# Editor / IDE
+# =========================
+
+# VSCode
+.vscode/
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# Vim
+*.swp
+*.swo
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Python (if you add scripts later)
+# =========================
+__pycache__/
+*.pyc
+
+# =========================
+# Graphviz outputs (for autodiff graph)
+# =========================
+*.dot
+*.png
+*.svg

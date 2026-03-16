@@ -40,7 +40,9 @@ struct Tensor {
     Tensor(const vector<int> &shape, double init_val = 0.0): shape(shape) {
         int total = 1;
         for(int d: shape) total *= d;
-        data.assign(total, Value::create(init_val));
+
+        data.reserve(total);
+        for(int i = 0; i < total; i++) data.push_back(Value::create(init_val));
     }
 
     /*
@@ -61,8 +63,13 @@ struct Tensor {
     }
 
     static Tensor from_vector(const vector<double> &vals, const vector<int> &shape) {
+        int total = 1;
+        for(int d: shape) total *= d;
+        assert((int)vals.size() == total);
+
         Tensor t;
         t.shape = shape;
+        t.data.reserve(total);
         for(double x: vals) t.data.push_back(Value::create(x));
         return t;
     }
@@ -148,7 +155,7 @@ inline Tensor add(const Tensor&a, const Tensor&b) {
 }
 
 // Elementwise multiplication
-inline Tensor add(const Tensor&a, const Tensor&b) {
+inline Tensor mul(const Tensor&a, const Tensor&b) {
     assert(a.shape == b.shape);
 
     Tensor out;
@@ -168,7 +175,7 @@ inline Tensor relu(const Tensor &a) {
 }
 
 // tanh
-inline Tensor relu(const Tensor &a) {
+inline Tensor tanh(const Tensor &a) {
     Tensor out;
     out.shape = a.shape;
     for(auto v: a.data) out.data.push_back(tanh_v(v));
@@ -204,4 +211,5 @@ inline Tensor matmul(const Tensor &a, const Tensor &b) {
             out.at({row, col}) = cell;
         }
     }
+    return out;
 }
