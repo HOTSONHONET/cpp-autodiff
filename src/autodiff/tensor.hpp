@@ -117,3 +117,74 @@ struct Tensor {
         cout<<"]\n";
     }
 };
+
+// Elementwise addition
+inline Tensor add(const Tensor&a, const Tensor&b) {
+    assert(a.shape == b.shape);
+
+    Tensor out;
+    out.shape = a.shape;
+    for(int i = 0; i < a.numel(); i++){
+        out.data.push_back(add(a.data[i], b.data[i]));
+    }
+    return out;
+}
+
+// Elementwise multiplication
+inline Tensor add(const Tensor&a, const Tensor&b) {
+    assert(a.shape == b.shape);
+
+    Tensor out;
+    out.shape = a.shape;
+    for(int i = 0; i < a.numel(); i++){
+        out.data.push_back(mul(a.data[i], b.data[i]));
+    }
+    return out;
+}
+
+// ReLU
+inline Tensor relu(const Tensor &a) {
+    Tensor out;
+    out.shape = a.shape;
+    for(auto v: a.data) out.data.push_back(relu(v));
+    return out;
+}
+
+// tanh
+inline Tensor relu(const Tensor &a) {
+    Tensor out;
+    out.shape = a.shape;
+    for(auto v: a.data) out.data.push_back(tanh_v(v));
+    return out;
+}
+
+// sum all elements
+inline Value* sum(const Tensor &a) {
+    Value* out = Value::create(0.0);
+    for(auto v: a.data) out = add(out, v);
+    return out;
+}
+
+// matmul 
+// a = [m, n], b = [n, p]
+// out = [m, p]
+inline Tensor matmul(const Tensor &a, const Tensor &b) {
+    assert(a.ndim() == 2 && b.ndim() == 2);
+    int m = a.shape[0], n = a.shape[1];
+    int n_ = b.shape[0], p = b.shape[1];
+
+    assert(n == n_);
+
+    Tensor out = Tensor::zeros({m, p});
+    
+    for(int row = 0; row < m; row++){
+        for(int col = 0; col < p; col++){
+            Value* cell = Value::create(0.0);
+            
+            for(int k = 0; k < n; k++){
+                cell = add(cell, mul(a.at({row, k}), b.at({k, col})));
+            }
+            out.at({row, col}) = cell;
+        }
+    }
+}
