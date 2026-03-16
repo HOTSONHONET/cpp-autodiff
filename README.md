@@ -13,3 +13,15 @@ The repository is a simple implementation of how to perform automatic differenti
 g++ -std=c++17 main.cpp -O2 -o train && ./train
 
 ```
+
+### How to test
+
+- Make sure if you have `g++` installed
+- Open the terminal at the root of the repository, and execute this command
+
+```
+
+g++ -std=c++17 tests/test_main.cpp tests/test_value.cpp tests/test_tensor.cpp -O2 -o tests_run
+./tests_run
+
+```
