@@ -19,6 +19,7 @@ It should support the following methods
 
 #pragma once
 #include "value.hpp"
+#include "../utils/random.hpp"
 
 struct Tensor {
     vector<int> shape;
@@ -115,6 +116,22 @@ struct Tensor {
             if(i+1 < (int)data.size()) cout<<", ";
         }
         cout<<"]\n";
+    }
+
+    static Tensor randn(const vector<int> &shape, double scale = 0.02) {
+        auto &rng = RNG::generator();
+        std::normal_distribution<double> dist(0.0, scale);
+
+        Tensor t;
+        t.shape = shape;
+
+        int total = 1;
+        for(int d: shape) total *= d;
+
+        for(int i = 0; i < total; i++){
+            t.data.push_back(Value::create(dist(rng)));
+        }
+        return t;
     }
 };
 
